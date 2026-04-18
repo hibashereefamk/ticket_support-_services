@@ -38,6 +38,7 @@ def process_ticket_task(ticket_id):
                 "message": f"Ticket {ticket.id} processed!"
             }
         )
+        return {"status": "success", "ticket_id": ticket_id, "category": ticket.category}
 
     except Ticket.DoesNotExist:
         print(f"Ticket {ticket_id} not found")

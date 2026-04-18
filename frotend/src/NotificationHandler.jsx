@@ -3,34 +3,28 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 const NotificationHandler = () => {
-    useEffect(() => {
-        const socket = new WebSocket('ws://localhost:8000/ws/notifications/');
+ useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8000/ws/notifications/');
 
-        socket.onopen = () => {
-            console.log("WebSocket Connected!");
-        };
+    socket.onopen = () => {
+        console.log("✅ WebSocket Connected!");
+    };
 
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        toast.info(data.message);
+    };
 
-            toast.info(data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-        };
+    socket.onclose = (e) => {
+        console.log("❌ WebSocket Disconnected!");
+    };
 
-        socket.onclose = () => {
-            console.log("WebSocket Disconnected!");
-        };
-
-        return () => socket.close();
-    }, []);
-
-    return <ToastContainer />;
+    return () => {
+        // Only close if the socket is in an OPEN or CONNECTING state
+        if (socket.readyState === 1 || socket.readyState === 0) {
+            socket.close();
+        }
+    };
+}, []);
 };
-
 export default NotificationHandler;

@@ -88,6 +88,10 @@ EMAIL_HOST_PASSWORD = 'mjbdvbwpkgciztgv'
 DEFAULT_FROM_EMAIL = 'Nexus Inventory nexus@gmail.com'
 ADMIN_EMAIL = 'admin@nexus.com'
 
+
+# settings.py
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
